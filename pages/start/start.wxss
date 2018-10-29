@@ -1,0 +1,31 @@
+/**index.wxss**/
+.userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .userinfo-avatar {
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+  }
+  .userinfo-nickname {
+    color: #aaa;
+  }
+  .usermotto {
+    margin-top: 200px;
+    color:pink;
+    animation:bet  3s 1s linear infinite ;
+  }
+  @keyframes bet{
+    40%{
+      transform: scale(0.9)
+    }
+    80%{
+      transform: scale(1.1)
+    }
+    100%{
+      transform: scale(1)
+    }
+  }
