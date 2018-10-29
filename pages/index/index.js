@@ -5,7 +5,8 @@ Page({
     autoplay:true,
     duration:2000,
     bannerImg:[],
-    navBarLink:[]
+    navBarLink: [],
+    actId:0
   },
   onLoad:function(options){
     var that=this;
@@ -38,16 +39,42 @@ Page({
     wx.request({
       url:"https://api.it120.cc/tz/shop/goods/category/all",
       success:function(res){
-         console.log(res.data.data)
-         if(res.statusCode==200){
+        console.log(res.data.data)
+        var allIten = [{
+          id: 0,
+          key:0,
+          name:"全部"
+        }]
+        if (res.statusCode == 200) {
+         var Allnavlist= allIten.concat(res.data.data)
+           console.log(Allnavlist)
             that.setData({
-              navBarLink:res.data.data
+              navBarLink:Allnavlist
             })
          }
       }
     })
 
 
+  },
+  scrollItemClick: function (e) {
+    console.log(e.currentTarget.id)
+    this.setData({
+      actId:e.currentTarget.id
+    }),
+    this.listInfo(e.currentTarget.id)
+  },
+  listInfo(gooodId) {
+    wx.request({
+      url: 'https://api.it120.cc/tz/shop/goods/list',
+      data: {
+        categoryId:gooodId,
+        // nameLike: that.data.searchInput
+      },
+      success: function (res) {
+        console.log(res)
+      }
+     })
   },
   onReady:function(){
     // 生命周期函数--监听页面初次渲染完成
