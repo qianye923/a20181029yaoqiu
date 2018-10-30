@@ -10,10 +10,20 @@
   <!-- {{actId == item.id ? 'Col' : ''}} -->
   <view class="type-contain">
     <scroll-view class="navList" scroll-x="true">
-      <view wx:for="{{navBarLink}}" wx:key="{{item.key}}" class="flex-item" >
-         <view id="{{item.id}}" class="nav-bottom {{actId==item.id ?'Col':''}}" bindtap="scrollItemClick">{{item.name}}</view>
+      <view wx:for="{{navBarLink}}" wx:key="{{item.key}}" class="flex-item">
+        <view id="{{item.id}}" class="nav-bottom {{actId==item.id ?'Col':''}}" bindtap="scrollItemClick">{{item.name}}</view>
       </view>
     </scroll-view>
+  </view>
+
+  <!-- 商品展示区域 -->
+  <view class="goodsCont">
+    <view class="itemGoods"  wx:for="{{showDataConent}}">
+      <image src="{{item.pic}}" />
+      <view class="goodsName">{{item.characteristic
+      }}</view>
+      <view class="prise"></view>
+    </view>
   </view>
 
 </view>

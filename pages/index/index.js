@@ -6,7 +6,8 @@ Page({
     duration:2000,
     bannerImg:[],
     navBarLink: [],
-    actId:0
+    actId:0,
+    startIndex:1
   },
   onLoad:function(options){
     var that=this;
@@ -39,7 +40,7 @@ Page({
     wx.request({
       url:"https://api.it120.cc/tz/shop/goods/category/all",
       success:function(res){
-        console.log(res.data.data)
+        // console.log(res.data.data)
         var allIten = [{
           id: 0,
           key:0,
@@ -47,34 +48,44 @@ Page({
         }]
         if (res.statusCode == 200) {
          var Allnavlist= allIten.concat(res.data.data)
-           console.log(Allnavlist)
+          //  console.log(Allnavlist)
             that.setData({
               navBarLink:Allnavlist
             })
          }
+         
       }
     })
-
-
+    //03 首屏显示全部的商品的内容
+    this.goodListInfo(0,1)
   },
+
   scrollItemClick: function (e) {
-    console.log(e.currentTarget.id)
+    // console.log(e.currentTarget.id)
     this.setData({
       actId:e.currentTarget.id
     }),
-    this.listInfo(e.currentTarget.id)
+    this.goodListInfo(e.currentTarget.id,this.data.startIndex)
   },
-  listInfo(gooodId) {
+
+  
+  goodListInfo(goodId,startIndex) {
+    var that=this
+    var startIndex=startIndex;
     wx.request({
       url: 'https://api.it120.cc/tz/shop/goods/list',
       data: {
-        categoryId:gooodId,
+        categoryId:goodId,
         // nameLike: that.data.searchInput
       },
       success: function (res) {
-        console.log(res)
-      }
+          that.setData({
+            showDataConent:res.data.data.slice(startIndex,10*startIndex),
+            startIndex:startIndex
+          })
+         }
      })
+   
   },
   onReady:function(){
     // 生命周期函数--监听页面初次渲染完成
@@ -98,7 +109,14 @@ Page({
   },
   onReachBottom: function() {
     // 页面上拉触底事件的处理函数
- 
+     var that=this;
+     var addIndex=that.data.startIndex;
+     var  goodId=that.data.actId
+     console.log(goodId)
+     addIndex++
+    //  console.log(index)
+    //  console.log(that.start.startIndex)
+    that.goodListInfo(goodId,addIndex)
   },
   onShareAppMessage: function() {
     // 用户点击右上角分享
